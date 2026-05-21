@@ -878,30 +878,20 @@ section{
 
 </section>
 
+<!-- ========================= -->
+<!-- CONTACT FORM WITH BACKEND -->
+<!-- ========================= -->
 <section id="contact">
-
-    <h2 class="section-title reveal">
-        Контакты
-    </h2>
-
-    <form class="contact-form reveal">
-
-        <input type="text" placeholder="Ваше имя">
-
-        <input type="email" placeholder="Email">
-
-        <textarea placeholder="Сообщение"></textarea>
-
-        <button class="btn btn-primary" type="submit">
-            Отправить сообщение
-        </button>
-
+    <h2 class="section-title reveal">Контакты</h2>
+    <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+        <input type="text" id="name" placeholder="Ваше имя" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <textarea id="message" placeholder="Сообщение" required></textarea>
+        <button class="btn btn-primary" type="submit">Отправить сообщение</button>
     </form>
-
 </section>
 
 <script>
-
 /* =========================
    CUSTOM CURSOR
 ========================= */
@@ -985,6 +975,31 @@ window.addEventListener('scroll', () => {
 
 });
 
+/* =========================
+   BACKEND — отправка формы
+========================= */
+async function handleSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+
+    try {
+        const response = await fetch('https://neon-waves-backend.onrender.com/send-message', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, message })
+        });
+        if (response.ok) {
+            alert('Сообщение отправлено!');
+            document.querySelector('.contact-form').reset();
+        } else {
+            alert('Ошибка отправки');
+        }
+    } catch (err) {
+        alert('Сервер недоступен');
+    }
+}
 </script>
 
 </body>
