@@ -8,7 +8,7 @@ CORS(app)
 
 DB = messages.db
 
-def init_db()
+def init_db():
     conn = sqlite3.connect(DB)
     conn.execute(
         CREATE TABLE IF NOT EXISTS messages (
